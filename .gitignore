@@ -1,0 +1,16 @@
+
+*.lock
+
+src/TalentVNCore/\.vs/TalentVNCore/v15/Server/sqlite3/
+
+src/TalentVNCore/ApplicationCore/obj/
+
+src/TalentVNCore/AppServices/obj/
+
+*.cache
+
+src/TalentVNCore/Infrastructure/obj/
+
+src/TalentVNCore/WebApp/obj/
+
+src/TalentVNCore/\.vs/TalentVNCore/v15/
