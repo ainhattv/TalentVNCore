@@ -14,3 +14,7 @@ src/TalentVNCore/Infrastructure/obj/
 src/TalentVNCore/WebApp/obj/
 
 src/TalentVNCore/\.vs/TalentVNCore/v15/
+/src/TalentVNCore/AppServices/bin
+/src/TalentVNCore/ApplicationCore/bin
+/src/TalentVNCore/Infrastructure/bin
+/src/TalentVNCore/WebApp/bin

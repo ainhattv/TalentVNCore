@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DataServices\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
   </ItemGroup>
 
