@@ -18,3 +18,11 @@ src/TalentVNCore/\.vs/TalentVNCore/v15/
 /src/TalentVNCore/ApplicationCore/bin
 /src/TalentVNCore/Infrastructure/bin
 /src/TalentVNCore/WebApp/bin
+
+src/TalentVNCore/\.vs/config/
+
+src/TalentVNCore/WebSPA/\.vscode/launch\.json
+
+src/TalentVNCore/WebSPA/\.vscode/
+
+src/TalentVNCore/WebSPA/ClientApp/\.editorconfig

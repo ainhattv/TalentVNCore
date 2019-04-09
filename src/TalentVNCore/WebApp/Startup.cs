@@ -108,7 +108,7 @@ namespace WebApp
                 if (existingUserManager == null)
                 {
                     services.AddIdentity<ApplicationUser, IdentityRole>()
-                        .AddDefaultUI(UIFramework.Bootstrap4)
+                        // .AddDefaultUI(UIFramework.Bootstrap4) // Disable defaultUI for login page
                         .AddEntityFrameworkStores<AppIdentityDbContext>()
                                         .AddDefaultTokenProviders();
                 }
