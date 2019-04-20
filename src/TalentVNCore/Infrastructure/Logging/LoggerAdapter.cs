@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Infrastructure.Logging
+namespace TalentVN.Infrastructure.Logging
 {
     public class LoggerAdapter<T> : IAppLogger<T>
     {

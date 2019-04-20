@@ -1,0 +1,40 @@
+﻿<div class="container menu-content">
+    <div id="responsive-panel">
+        @(Html.Kendo().Menu()
+                            .Name("Menu")
+                            .Items(items =>
+                            {
+                                //items.Add()
+                                //    .Text("Home")
+                                //    .Action("Index", "Home");
+                                //items.Add()
+                                //    .Text("About")
+                                //    .Action("About", "Home");
+                                //items.Add()
+                                //    .Text("Contact")
+                                //    .Action("Contact", "Home");
+                                items.Add()
+                                        .Text("Accounts")
+                                        .Action("Index", "Accounts");
+                                items.Add()
+                                        .Text("Students")
+                                        .Action("Index", "Students");
+                            })
+        )
+
+    </div>
+    <button id="configure" class="k-rpanel-toggle k-button k-primary btn-toggle"><span class="k-icon k-i-hbars"></span></button>
+</div>
+
+<script>
+        $(document).ready(function () {
+            $("#responsive-panel").kendoResponsivePanel({
+                breakpoint: 768,
+                autoClose: false,
+                orientation: "top"
+            });
+        });
+        function onclick(e) {
+            $("#responsive-panel").getKendoResponsivePanel().toggle();
+        }
+</script>

@@ -1,7 +1,7 @@
 ﻿using ApplicationCore.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Data
+namespace TalentVN.Infrastructure.Data
 {
     public class AppDbContext : DbContext
     {
@@ -11,6 +11,7 @@ namespace Infrastructure.Data
 
         // Define DBset
         public DbSet<Todo> Todos { get; set; }
-
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Student> Students { get; set; }
     }
 }
