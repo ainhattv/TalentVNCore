@@ -1,7 +1,6 @@
 
 *.lock
 
-src/TalentVNCore/\.vs/TalentVNCore/v15/Server/sqlite3/
 
 src/TalentVNCore/ApplicationCore/obj/
 
@@ -11,18 +10,12 @@ src/TalentVNCore/AppServices/obj/
 
 src/TalentVNCore/Infrastructure/obj/
 
-src/TalentVNCore/WebApp/obj/
-
+src/TalentVNCore/.vs
 src/TalentVNCore/\.vs/TalentVNCore/v15/
 /src/TalentVNCore/AppServices/bin
 /src/TalentVNCore/ApplicationCore/bin
 /src/TalentVNCore/Infrastructure/bin
-/src/TalentVNCore/WebApp/bin
 
-src/TalentVNCore/\.vs/config/
 
-src/TalentVNCore/WebSPA/\.vscode/launch\.json
-
-src/TalentVNCore/WebSPA/\.vscode/
-
-src/TalentVNCore/WebSPA/ClientApp/\.editorconfig
+src/TalentVNCore/SchoolCMS/bin
+src/TalentVNCore/SchoolCMS/obj

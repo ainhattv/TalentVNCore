@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Data
+namespace TalentVN.Infrastructure.Data
 {
     public class EfRepository<T> : IAsyncRepository<T> where T : BaseEntity
     {
