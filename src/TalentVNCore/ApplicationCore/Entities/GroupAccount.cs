@@ -4,11 +4,10 @@ using System.Text;
 
 namespace TalentVN.ApplicationCore.Entities
 {
-    public class Student
+    public class GroupAccount
     {
-        public string StudentID { get; set; }
-
-        public string MSSV { get; set; }
+        public string GroupID { get; set; }
+        public Group Group { get; set; }
 
         public string AccountID { get; set; }
         public Account Account { get; set; }

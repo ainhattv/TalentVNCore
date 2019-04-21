@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ApplicationCore.Interfaces;
+using TalentVN.ApplicationCore.Interfaces;
 using AppServices.EmailServices;
 using TalentVN.Infrastructure.Data;
 using TalentVN.Infrastructure.Identity;

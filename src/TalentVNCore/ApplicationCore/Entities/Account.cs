@@ -1,9 +1,10 @@
-﻿using System;
+﻿using TalentVN.ApplicationCore.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace ApplicationCore.Entities
+namespace TalentVN.ApplicationCore.Entities
 {
     public class Account
     {
@@ -31,6 +32,8 @@ namespace ApplicationCore.Entities
         public bool IsLogin { get; set; }
 
         public bool IsActive { get; set; }
+
+        public ICollection<GroupAccount> GroupAccounts { get; set; }
     }
 
     public enum AccountType

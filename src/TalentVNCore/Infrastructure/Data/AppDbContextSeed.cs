@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Entities;
+﻿using TalentVN.ApplicationCore.Entities;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

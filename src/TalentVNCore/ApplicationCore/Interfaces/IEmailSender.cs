@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApplicationCore.Interfaces
+namespace TalentVN.ApplicationCore.Interfaces
 {
     public interface IEmailSender
     {

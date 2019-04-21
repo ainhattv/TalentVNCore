@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Entities;
+﻿using TalentVN.ApplicationCore.Entities;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +23,8 @@ namespace SchoolCMS.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            // var appDbContext = _context.Students.Include(s => s.Account);
             return View();
         }
 
@@ -46,54 +45,12 @@ namespace SchoolCMS.Controllers
                     MSSV = result.MSSV,
                     FirstName = result.Account != null ? result.Account.FirstName : "",
                     LastName = result.Account != null ? result.Account.LastName : "",
-                    Address = result.Account != null ? result.Account.Address : ""
+                    Address = result.Account != null ? result.Account.Address : "",
+                    AccountID = result.Account != null ? result.Account.AccountID : "",
                 });
             }
 
             return Json(viewresults.ToDataSourceResult(request));
-        }
-
-        // GET: Students/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var student = await _context.Students
-                .Include(s => s.Account)
-                .FirstOrDefaultAsync(m => m.StudentID == id);
-            if (student == null)
-            {
-                return NotFound();
-            }
-
-            return View(student);
-        }
-
-        // GET: Students/Create
-        public IActionResult Create()
-        {
-            ViewData["AccountID"] = new SelectList(_context.Accounts, "AccountID", "AccountID");
-            return View();
-        }
-
-        // POST: Students/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StudentID,MSSV,AccountID")] Student student)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["AccountID"] = new SelectList(_context.Accounts, "AccountID", "AccountID", student.AccountID);
-            return View(student);
         }
 
         [AcceptVerbs("Post")]
@@ -112,7 +69,7 @@ namespace SchoolCMS.Controllers
                         LastName = studentViewModel.LastName,
                         Address = studentViewModel.Address
                     },
-                    
+
                 };
 
                 await _context.Students.AddAsync(student);
@@ -122,92 +79,51 @@ namespace SchoolCMS.Controllers
             return Json(new[] { studentViewModel }.ToDataSourceResult(request, ModelState));
         }
 
-        // GET: Students/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        [AcceptVerbs("Post")]
+        public async Task<ActionResult> EditingPopup_Update([DataSourceRequest] DataSourceRequest request, StudentViewModel studentViewModel)
         {
-            if (id == null)
+            if (studentViewModel != null && ModelState.IsValid)
             {
-                return NotFound();
-            }
-
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
-            {
-                return NotFound();
-            }
-            ViewData["AccountID"] = new SelectList(_context.Accounts, "AccountID", "AccountID", student.AccountID);
-            return View(student);
-        }
-
-        // POST: Students/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("StudentID,MSSV,AccountID")] Student student)
-        {
-            if (id != student.StudentID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                Student student = new Student()
                 {
-                    _context.Update(student);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StudentExists(student.StudentID))
+                    StudentID = studentViewModel.StudentID,
+                    MSSV = studentViewModel.MSSV,
+                    Account = new Account
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                        AccountID = studentViewModel.AccountID,
+                        FirstName = studentViewModel.FirstName,
+                        LastName = studentViewModel.LastName,
+                        Address = studentViewModel.Address
+                    },
+
+                };
+
+                _context.Students.Update(student);
+                await _context.SaveChangesAsync();
             }
-            ViewData["AccountID"] = new SelectList(_context.Accounts, "AccountID", "AccountID", student.AccountID);
-            return View(student);
+
+            return Json(new[] { studentViewModel }.ToDataSourceResult(request, ModelState));
         }
 
-        // GET: Students/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        [AcceptVerbs("Post")]
+        public async Task<ActionResult> EditingPopup_Destroy([DataSourceRequest] DataSourceRequest request, StudentViewModel studentViewModel)
         {
-            if (id == null)
+            if (studentViewModel != null && ModelState.IsValid)
             {
-                return NotFound();
+                Student student = await _context.Students.SingleOrDefaultAsync(s => s.StudentID.Equals(studentViewModel.StudentID));
+
+                if(student != null)
+                    _context.Students.Remove(student);
+
+                Account account = await _context.Accounts.SingleOrDefaultAsync(a => a.AccountID.Equals(studentViewModel.AccountID));
+                if(account != null)
+                    _context.Accounts.Remove(account);
+
+                await _context.SaveChangesAsync();
             }
 
-            var student = await _context.Students
-                .Include(s => s.Account)
-                .FirstOrDefaultAsync(m => m.StudentID == id);
-            if (student == null)
-            {
-                return NotFound();
-            }
-
-            return View(student);
+            return Json(new[] { studentViewModel }.ToDataSourceResult(request, ModelState));
         }
 
-        // POST: Students/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var student = await _context.Students.FindAsync(id);
-            _context.Students.Remove(student);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool StudentExists(string id)
-        {
-            return _context.Students.Any(e => e.StudentID == id);
-        }
     }
 }
