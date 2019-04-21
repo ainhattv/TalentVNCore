@@ -1,50 +1,42 @@
-﻿@(Html.Kendo().Grid<TalentVN.ApplicationCore.Entities.Group>()
-                    .Name("grid")
-                    .Columns(columns =>
-                    {
-                        columns.Bound(c => c.Name).Width(80);
-                        columns.Bound(c => c.Description).Width(190);
-                        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(160);
-                    })
-                    .ToolBar(toolbar => toolbar.Create())
-                    .Editable(editable => editable.Mode(GridEditMode.PopUp))
-                    .HtmlAttributes(new { style = "height: 600px;" })
-                    .Scrollable()
-                    .Pageable()
-                    .Groupable()
-                    .Sortable()
-                    .Filterable()
-                    .Pageable(pageable => pageable
-                        .Refresh(true)
-                        .PageSizes(true)
-                        .ButtonCount(5))
-                    .DataSource(dataSource => dataSource
-                        .Ajax()
-                        .Events(events => events.Error("error_handler"))
-                        .Model(model =>
-                        {
-                            model.Id(p => p.GroupID);
-                            model.Field(p => p.GroupID).Editable(false);
-                        })
-                    .Read(read => read.Action("Index_List", "Groups"))
-                    .Create(create => create.Action("EditingPopup_Create", "Groups"))
-                    .Update(update => update.Action("EditingPopup_Update", "Groups"))
-                    .Destroy(destroy => destroy.Action("EditingPopup_Destroy", "Groups"))
-        )
-)
+﻿@model IEnumerable<TalentVN.ApplicationCore.Entities.Group>
 
-<script type="text/javascript">
-    function error_handler(e) {
-        if (e.errors) {
-            var message = "Errors:\n";
-            $.each(e.errors, function (key, value) {
-                if ('errors' in value) {
-                    $.each(value.errors, function () {
-                        message += this + "\n";
-                    });
-                }
-            });
-            alert(message);
+@{
+    ViewData["Title"] = "Index";
+}
+
+@await Component.InvokeAsync("Header", new { strHeader = "Group List" })
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.GroupID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.GroupID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.GroupID">Delete</a>
+                </td>
+            </tr>
         }
-    }
-</script>
+    </tbody>
+</table>

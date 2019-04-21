@@ -1,6 +1,5 @@
 ﻿using TalentVN.ApplicationCore.Entities;
 using Microsoft.EntityFrameworkCore;
-using TalentVN.ApplicationCore.Entities;
 
 namespace TalentVN.Infrastructure.Data
 {

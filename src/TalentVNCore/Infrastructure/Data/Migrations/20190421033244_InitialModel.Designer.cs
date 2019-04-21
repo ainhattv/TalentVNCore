@@ -9,7 +9,7 @@ using TalentVN.Infrastructure.Data;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20190420170116_InitialModel")]
+    [Migration("20190421033244_InitialModel")]
     partial class InitialModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

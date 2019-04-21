@@ -104,10 +104,10 @@ namespace TalentVN.SchoolCMS
             // Define Repositories Dependencies
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 
-            _services = services;
-
             // Add Kendo UI services to the services container
             services.AddKendo();
+
+            _services = services;
         }
 
         private static void CreateIdentityIfNotCreated(IServiceCollection services)

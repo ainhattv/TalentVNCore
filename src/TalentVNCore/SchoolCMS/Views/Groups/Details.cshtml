@@ -1,0 +1,101 @@
+﻿@model TalentVN.ApplicationCore.Entities.Group
+@using Kendo.Mvc.UI
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@await Component.InvokeAsync("Header", new { strHeader = "Group Detail" })
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+
+    @* Group Student List *@
+    <h4>Group Students</h4>
+    @(Html.Kendo().Grid<TalentVN.SchoolCMS.ViewModels.StudentViewModel>()
+                .Name("AddedGrid")
+                .Columns(columns =>
+                {
+                    columns.Select().Width(50);
+                    columns.Bound(p => p.FirstName).Width(130);
+                    columns.Bound(p => p.LastName).Width(130);
+                    columns.Command(command => command.Destroy().Text("Remove")).Title("Remove").Width(150);
+                })
+                .Pageable(pageable => pageable
+                        .Refresh(true)
+                        .PageSizes(true)
+                        .ButtonCount(5))
+                .PersistSelection()
+                .Sortable()
+                .Events(ev => ev.Change("onChange"))
+                .Scrollable(scr => scr.Height(200))
+                .Filterable()
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .PageSize(20)
+                    .Model(model =>
+                            {
+                                model.Id(p => p.StudentID);
+                                model.Field(p => p.StudentID).Editable(false);
+                            })
+                    .Read(read => read.Action("GroupStudents", "Groups", new { groupID = @Model.GroupID }))
+                    .Destroy(destroy => destroy.Action("RemoveStudent", "Groups", new { groupID = @Model.GroupID }))
+                    )
+    )
+    <div>
+        <button type="button" class="btn btn-warning">Remove Selected items</button>
+    </div>
+    <hr />
+    @* Available Student List *@
+    <h4>Available Students</h4>
+    @(Html.Kendo().Grid<TalentVN.SchoolCMS.ViewModels.StudentViewModel>()
+                .Name("AvailableGrid")
+                .Columns(columns =>
+                {
+                    columns.Select().Width(50);
+                    columns.Bound(p => p.FirstName).Width(130);
+                    columns.Bound(p => p.LastName).Width(130);
+                    columns.Command(command => command.Destroy().Text("Add")).Title("Add").Width(150);
+                })
+                .Pageable(pageable => pageable
+                        .Refresh(true)
+                        .PageSizes(true)
+                        .ButtonCount(5))
+                .Sortable()
+                .Scrollable(scr => scr.Height(200))
+                .Filterable()
+                .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .PageSize(20)
+                    .Model(model =>
+                            {
+                                model.Id(p => p.StudentID);
+                                model.Field(p => p.StudentID).Editable(false);
+                            })
+                    .Read(read => read.Action("AvailableStudents", "Groups", new { groupID = @Model.GroupID }))
+                    .Destroy(destroy => destroy.Action("AddNewStudent", "Groups", new { groupID = @Model.GroupID }))
+                    )
+    )
+    <div>
+        <span><button type="button" class="btn btn-primary">Add Selected items</button></span>
+    </div>
+</div>
+
+<script>
+    function onChange(arg) {
+        console.log("The selected product ids are: [" + this.selectedKeyNames().join(", ") + "]")
+    }
+</script>
