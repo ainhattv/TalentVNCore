@@ -1,8 +1,8 @@
 How to run:
 1. Update Database from cmd (webapp CLI)
-- go to WeApp folder(cmd)
-- dotnet ef database update -c appdbcontext -p ../Infrastructure/Infrastructure.csproj -s WebApp.csproj
-- dotnet ef database update -c appidentitydbcontext -p ../Infrastructure/Infrastructure.csproj -s WebApp.csproj
+- go to SchoolCMS folder(cmd)
+- dotnet ef database update -c appdbcontext -p ../Infrastructure/Infrastructure.csproj -s SchoolCMS.csproj
+- dotnet ef database update -c appidentitydbcontext -p ../Infrastructure/Infrastructure.csproj -s SchoolCMS.csproj
 - Run project in VS studio with F5
 
 How to create/update migration
