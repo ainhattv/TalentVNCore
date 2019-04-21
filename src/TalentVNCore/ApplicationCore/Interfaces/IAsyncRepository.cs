@@ -1,8 +1,8 @@
-﻿using ApplicationCore.Entities;
+﻿using TalentVN.ApplicationCore.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ApplicationCore.Interfaces
+namespace TalentVN.ApplicationCore.Interfaces
 {
     public interface IAsyncRepository<T> where T : BaseEntity
     {

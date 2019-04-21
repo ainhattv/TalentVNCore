@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Interfaces;
+﻿using TalentVN.ApplicationCore.Interfaces;
 using System.Threading.Tasks;
 
 namespace AppServices.EmailServices

@@ -13,7 +13,7 @@ namespace TalentVN.SchoolCMS.Views.Shared.Components.Nav
 
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int selectedIndex)
+        public IViewComponentResult Invoke(int selectedIndex)
         {
             return View();
         }

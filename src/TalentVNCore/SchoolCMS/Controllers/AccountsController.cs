@@ -1,4 +1,4 @@
-﻿using ApplicationCore.Entities;
+﻿using TalentVN.ApplicationCore.Entities;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +36,7 @@ namespace SchoolCMS.Controllers
         {
             if (account != null && ModelState.IsValid)
             {
-                await _context.AddAsync(account);
+                await _context.Accounts.AddAsync(account);
                 await _context.SaveChangesAsync();
             }
 

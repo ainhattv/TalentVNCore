@@ -1,0 +1,54 @@
+﻿@(Html.Kendo().Grid<TalentVN.SchoolCMS.ViewModels.TeacherViewModel>()
+                        .Name("grid")
+                        .Columns(columns =>
+                        {
+                            columns.Bound(c => c.MSGV).Width(80);
+                            columns.Bound(c => c.FirstName).Width(190);
+                            columns.Bound(c => c.LastName).Width(190);
+                            columns.Bound(c => c.Address).Width(110);
+                            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(160);
+                        })
+                        .ToolBar(toolbar => toolbar.Create())
+                        .Editable(editable => editable.Mode(GridEditMode.PopUp))
+                        .HtmlAttributes(new { style = "height: 600px;" })
+                        .Scrollable()
+                        .Pageable()
+                        .Groupable()
+                        .Sortable()
+                        .Filterable()
+                        .Pageable(pageable => pageable
+                            .Refresh(true)
+                            .PageSizes(true)
+                            .ButtonCount(5))
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .Events(events => events.Error("error_handler"))
+                            .Model(model =>
+                            {
+                                model.Id(p => p.TeacherID);
+                                model.Field(p => p.TeacherID).Editable(false);
+                                model.Id(p => p.AccountID);
+                                model.Field(p => p.AccountID).Editable(false);
+                            })
+                        .Read(read => read.Action("Index_List", "Teachers"))
+                        .Create(update => update.Action("EditingPopup_Create", "Teachers"))
+                        .Update(update => update.Action("EditingPopup_Update", "Teachers"))
+                        .Destroy(destroy => destroy.Action("EditingPopup_Destroy", "Teachers"))
+            )
+)
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>
