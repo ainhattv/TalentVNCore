@@ -23,4 +23,4 @@ Documents relations:
   
 4. React native UI with https://nativebase.io/
 
-5. React native UI with https://react-native-training.github.io/react-native-elements/
+5. React native UI with https://react-native-training.github.io/react-native-elements/ 
