@@ -7,9 +7,9 @@ How to run:
 
 How to create/update migration
 1. create migration (from SchoolCMS folder CLI)
-- go to WeApp folder(cmd)
-- dotnet ef migrations add InitialModel --context appdbcontext -p ../Infrastructure/Infrastructure.csproj -s WebApp.csproj -o Data/Migrations
-- dotnet ef migrations add InitialIdentityModel --context appidentitydbcontext -p ../Infrastructure/Infrastructure.csproj -s WebApp.csproj -o Identity/Migrations
+- go to SchoolCMS folder(cmd)
+- dotnet ef migrations add InitialModel --context appdbcontext -p ../Infrastructure/Infrastructure.csproj -s SchoolCMS.csproj -o Data/Migrations
+- dotnet ef migrations add InitialIdentityModel --context appidentitydbcontext -p ../Infrastructure/Infrastructure.csproj -s SchoolCMS.csproj -o Identity/Migrations
 
 Documents relations:
 1. Architecture design follow .Net standard design with .Net Core and support docker with Cross FlatForm
