@@ -33,6 +33,14 @@ namespace TalentVN.Infrastructure.Data
             return entity;
         }
 
+        public async Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities)
+        {
+            _dbContext.Set<T>().AddRange(entities);
+            await _dbContext.SaveChangesAsync();
+
+            return entities;
+        }
+
         public async Task UpdateAsync(T entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;

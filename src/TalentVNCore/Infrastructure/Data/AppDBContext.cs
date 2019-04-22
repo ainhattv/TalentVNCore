@@ -15,7 +15,6 @@ namespace TalentVN.Infrastructure.Data
         }
 
         // Define DBset
-        public DbSet<Todo> Todos { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }

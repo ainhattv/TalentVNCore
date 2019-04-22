@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TalentVN.ApplicationCore.Entities
 {
-    public class Group
+    public class Group : BaseEntity
     {
         public Group()
         {

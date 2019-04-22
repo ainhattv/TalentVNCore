@@ -19,6 +19,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using ApplicationCore.Interfaces;
+using AppServices.DataServices;
 
 namespace TalentVN.SchoolCMS
 {
@@ -103,6 +105,7 @@ namespace TalentVN.SchoolCMS
 
             // Define Repositories Dependencies
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(IGroupService), typeof(GroupService));
 
             // Add Kendo UI services to the services container
             services.AddKendo();

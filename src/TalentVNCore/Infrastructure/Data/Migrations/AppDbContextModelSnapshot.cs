@@ -107,19 +107,6 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Teachers");
                 });
 
-            modelBuilder.Entity("TalentVN.ApplicationCore.Entities.Todo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Todos");
-                });
-
             modelBuilder.Entity("TalentVN.ApplicationCore.Entities.GroupAccount", b =>
                 {
                     b.HasOne("TalentVN.ApplicationCore.Entities.Account", "Account")

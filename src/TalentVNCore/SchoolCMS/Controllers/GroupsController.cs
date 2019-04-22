@@ -1,4 +1,5 @@
-﻿using Kendo.Mvc.Extensions;
+﻿using ApplicationCore.Interfaces;
+using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,12 @@ namespace SchoolCMS.Controllers
     public class GroupsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IGroupService _groupService;
 
-        public GroupsController(AppDbContext context)
+        public GroupsController(AppDbContext context, IGroupService groupService)
         {
             _context = context;
+            _groupService = groupService;
         }
 
         // GET: Groups
@@ -156,41 +159,24 @@ namespace SchoolCMS.Controllers
                 return NotFound();
             }
 
-            var @group = await _context.Groups.FindAsync(groupID);
-            var @student = await _context.Students.Include(s => s.Account).SingleOrDefaultAsync(s => s.StudentID == studentViewModel.StudentID);
-
-
-            if (@group == null || @student == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                @group.GroupAccounts.Add(new GroupAccount { Account = @student.Account, Group = @group });
-            }
-
-            await _context.SaveChangesAsync();
-
-            return Ok();
+            return Ok(await _groupService.AddNewStudent(groupID, studentViewModel.StudentID));
         }
 
-        // GET: Groups/Edit/5
+        /// <summary>
+        /// Remove student from group
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="studentViewModel"></param>
+        /// <param name="groupID"></param>
+        /// <returns></returns>
         public async Task<IActionResult> RemoveStudent([DataSourceRequest] DataSourceRequest request, StudentViewModel studentViewModel, string groupID)
         {
             if (groupID == null || studentViewModel == null)
             {
                 return NotFound();
             }
-
-            var groupAccount = await _context.GroupAccounts.SingleOrDefaultAsync(x => x.AccountID == studentViewModel.AccountID && x.GroupID == groupID);
-
-            if (groupAccount != null)
-            {
-                _context.GroupAccounts.Remove(groupAccount);
-                await _context.SaveChangesAsync();
-            }        
-
-            return Ok();
+         
+            return Ok(await _groupService.RemoveStudent(groupID, studentViewModel.AccountID));
         }
 
         private bool GroupExists(string id)
@@ -204,15 +190,18 @@ namespace SchoolCMS.Controllers
         /// <param name="request"></param>
         /// <param name="groupID"></param>
         /// <returns></returns>
-        public async Task<IActionResult> AvailableStudents([DataSourceRequest] DataSourceRequest request, string groupID)
+        public IActionResult AvailableStudents([DataSourceRequest] DataSourceRequest request, string groupID)
         {
-            var studentDB = _context.Students.Include(x => x.Account).Include(g => g.Account.GroupAccounts);
+            if (groupID == null)
+            {
+                return NotFound();
+            }
 
-            var results = await studentDB.Where(x => !x.Account.GroupAccounts.Any(a => a.GroupID == groupID)).ToListAsync();
+            var students = _groupService.AvailableStudents(groupID);
 
             var viewresults = new List<StudentViewModel>();
 
-            foreach (var result in results)
+            foreach (var result in students)
             {
                 viewresults.Add(new StudentViewModel
                 {
@@ -234,15 +223,18 @@ namespace SchoolCMS.Controllers
         /// <param name="request"></param>
         /// <param name="groupID"></param>
         /// <returns></returns>
-        public async Task<IActionResult> GroupStudents([DataSourceRequest] DataSourceRequest request, string groupID)
+        public IActionResult GroupStudents([DataSourceRequest] DataSourceRequest request, string groupID)
         {
-            var studentDB = _context.Students.Include(x => x.Account).Include(g => g.Account.GroupAccounts);
+            if (groupID == null)
+            {
+                return NotFound();
+            }
 
-            var results = await studentDB.Where(x => x.Account.GroupAccounts.Any(a => a.GroupID == groupID)).ToListAsync();
+            var students = _groupService.GroupStudents(groupID);
 
             var viewresults = new List<StudentViewModel>();
 
-            foreach (var result in results)
+            foreach (var result in students)
             {
                 viewresults.Add(new StudentViewModel
                 {
@@ -256,6 +248,28 @@ namespace SchoolCMS.Controllers
             }
 
             return Json(viewresults.ToDataSourceResult(request));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveStudents(string groupID, string studentIDs)
+        {
+            if (groupID == null || studentIDs == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(await _groupService.RemoveStudents(groupID, studentIDs.Split(",").ToList()));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RemoveStudentss(int groupID)
+        {
+            if (groupID == null)
+            {
+                return NotFound();
+            }
+
+            return Ok();
         }
     }
 }

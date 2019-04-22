@@ -9,7 +9,7 @@ using TalentVN.Infrastructure.Data;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20190421033244_InitialModel")]
+    [Migration("20190421140101_InitialModel")]
     partial class InitialModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,19 +107,6 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex("AccountID");
 
                     b.ToTable("Teachers");
-                });
-
-            modelBuilder.Entity("TalentVN.ApplicationCore.Entities.Todo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Todos");
                 });
 
             modelBuilder.Entity("TalentVN.ApplicationCore.Entities.GroupAccount", b =>

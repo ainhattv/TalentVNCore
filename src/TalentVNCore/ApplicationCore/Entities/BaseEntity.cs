@@ -8,6 +8,6 @@ namespace TalentVN.ApplicationCore.Entities
     // Using non-generic integer types for simplicity and to ease caching logic
     public class BaseEntity
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
     }
 }
