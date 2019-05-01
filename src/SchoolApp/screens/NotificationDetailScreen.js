@@ -4,23 +4,24 @@ import { Image, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
 import { createStackNavigator, createAppContainer } from 'react-navigation'; // Version can be specified in 
 
-export default class NewsDetailScreen extends React.Component {
+export default class NotificationDetailScreen extends React.Component {
 
     API = "http://10.0.2.2:5001/api/v1";
 
     constructor(props) {
         super(props);
 
-        newsID = this.props.navigation.getParam('NewsID', 'No ID');
+        // Get navigate params
+        notificationID = this.props.navigation.getParam('NotificationID', 'No ID');
 
         this.state = {
             loading: true,
-            NewsID: newsID,
+            NotificationID: notificationID,
         }
     }
 
     async componentWillMount() {
-        this.getNewsDetail(this.state.NewsID);
+        this.getNotificationDetail(this.state.NotificationID);
 
         this.setState({
             loading: false,
@@ -37,15 +38,14 @@ export default class NewsDetailScreen extends React.Component {
     _onRefresh = () => {
         this.setState({ refreshing: true });
 
-        this.getNewsDetail(this.state.NewsID);
-        
+        this.getNotificationDetail(this.state.NotificationID);
+
         this.setState({ refreshing: false });
     }
 
-    async getNewsDetail(newsID) {
-        PUSH_ENDPOINT = this.API + "/News/" + newsID;
+    async getNotificationDetail(notificationID) {
+        PUSH_ENDPOINT = this.API + "/Notifies/" + notificationID;
 
-        // // POST the token to your backend server from where you can retrieve it to send push notifications.
         try {
             const response = await fetch(PUSH_ENDPOINT, {
                 method: 'GET',
@@ -57,8 +57,10 @@ export default class NewsDetailScreen extends React.Component {
 
             let data = JSON.parse(response._bodyText);
 
+            // console.log(data);
+
             this.setState({
-                NewsData: data,
+                NotificationData: data,
             });
         }
         catch (error) {
@@ -73,8 +75,8 @@ export default class NewsDetailScreen extends React.Component {
             return <Expo.AppLoading />;
         }
 
-        if (this.state.NewsData) {
-            const { NewsData } = this.state;
+        if (this.state.NotificationData) {
+            const { NotificationData } = this.state;
             return (
                 <Container>
                     <ScrollView refreshControl={
@@ -87,44 +89,24 @@ export default class NewsDetailScreen extends React.Component {
                             <Card>
                                 <CardItem>
                                     <Left>
-                                        <Thumbnail source={{ uri: 'https://now.edu.vn/wp-content/uploads/2016/02/mixed-logo.jpg' }} />
-                                        <Body>
-                                            <Text>{NewsData.Name}</Text>
-                                            <Text note>{NewsData.Header}</Text>
-                                        </Body>
-                                    </Left>
-                                </CardItem>
-                                <CardItem>
-
-                                    <Image source={{ uri: 'https://now.edu.vn/wp-content/uploads/2016/02/mixed-logo.jpg' }} style={{ height: 300, width: null, flex: 1 }} />
-
-                                </CardItem>
-
-                                <CardItem>
-                                    <Text>
-                                        {NewsData.Body}
-                                    </Text>
-                                </CardItem>
-
-                                <CardItem>
-                                    <Left>
-                                        <Button transparent >
-                                            <Icon active name="thumbs-up" />
-                                            <Text>12 View</Text>
-                                        </Button>
+                                        <Text>From: </Text>
                                     </Left>
                                     <Body>
-                                        <Button transparent >
-                                            <Icon active name="chatbubbles" />
-                                            <Text>4 Comments</Text>
-                                        </Button>
+                                        <Text>My School </Text>
                                     </Body>
-                                    <Right>
-                                        <Text note>11h ago</Text>
-                                    </Right>
+                                </CardItem>
+                                <CardItem>
+                                    <Left>
+                                        <Text>To: </Text>
+                                    </Left>
+                                    <Body>
+                                        <Text>Van Nhat </Text>
+                                    </Body>
+                                </CardItem>
+                                <CardItem>
+                                    <Text>{NotificationData.Message}</Text>
                                 </CardItem>
                             </Card>
-
                         </Content>
                     </ScrollView>
                 </Container>

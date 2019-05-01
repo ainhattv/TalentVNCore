@@ -10,6 +10,8 @@ namespace TalentVN.ApplicationCore.Entities
         public Group()
         {
             this.GroupAccounts = new HashSet<GroupAccount>();
+            this.NotifyGroups = new HashSet<NotifyGroup>();
+
         }
 
         [Key]
@@ -20,5 +22,7 @@ namespace TalentVN.ApplicationCore.Entities
         public string Description { get; set; }
 
         public virtual ICollection<GroupAccount> GroupAccounts { get; set; }
+
+        public virtual ICollection<NotifyGroup> NotifyGroups { get; set; }
     }
 }

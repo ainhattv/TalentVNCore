@@ -21,6 +21,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using ApplicationCore.Interfaces;
 using AppServices.DataServices;
+using Swashbuckle.AspNetCore.Swagger;
+using TalentVN.SchoolCMS.Services;
 
 namespace TalentVN.SchoolCMS
 {
@@ -98,10 +100,12 @@ namespace TalentVN.SchoolCMS
                 // Maintain property names during serialization. See:
                 // https://github.com/aspnet/Announcements/issues/194
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+                
 
             // Define Services Dependencies
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<INotificationService, NotificationService>();
 
             // Define Repositories Dependencies
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
@@ -109,6 +113,11 @@ namespace TalentVN.SchoolCMS
 
             // Add Kendo UI services to the services container
             services.AddKendo();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
 
             _services = services;
         }
@@ -149,6 +158,16 @@ namespace TalentVN.SchoolCMS
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseMvc(routes =>
             {

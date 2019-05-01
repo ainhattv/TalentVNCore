@@ -9,7 +9,7 @@ using TalentVN.Infrastructure.Data;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20190421140101_InitialModel")]
+    [Migration("20190424132842_InitialModel")]
     partial class InitialModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,6 +77,59 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("GroupAccounts");
                 });
 
+            modelBuilder.Entity("TalentVN.ApplicationCore.Entities.News", b =>
+                {
+                    b.Property<string>("NewsID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Body");
+
+                    b.Property<string>("Header");
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("NewsType");
+
+                    b.HasKey("NewsID");
+
+                    b.ToTable("News");
+                });
+
+            modelBuilder.Entity("TalentVN.ApplicationCore.Entities.Notify", b =>
+                {
+                    b.Property<string>("NotifyID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Message");
+
+                    b.Property<string>("TeacherID");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("NotifyID");
+
+                    b.HasIndex("TeacherID");
+
+                    b.ToTable("Notifys");
+                });
+
+            modelBuilder.Entity("TalentVN.ApplicationCore.Entities.NotifyGroup", b =>
+                {
+                    b.Property<string>("NotifyID");
+
+                    b.Property<string>("GroupID");
+
+                    b.HasKey("NotifyID", "GroupID");
+
+                    b.HasIndex("GroupID");
+
+                    b.ToTable("NotifyGroups");
+                });
+
             modelBuilder.Entity("TalentVN.ApplicationCore.Entities.Student", b =>
                 {
                     b.Property<string>("StudentID")
@@ -119,6 +172,26 @@ namespace Infrastructure.Data.Migrations
                     b.HasOne("TalentVN.ApplicationCore.Entities.Group", "Group")
                         .WithMany("GroupAccounts")
                         .HasForeignKey("GroupID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TalentVN.ApplicationCore.Entities.Notify", b =>
+                {
+                    b.HasOne("TalentVN.ApplicationCore.Entities.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherID");
+                });
+
+            modelBuilder.Entity("TalentVN.ApplicationCore.Entities.NotifyGroup", b =>
+                {
+                    b.HasOne("TalentVN.ApplicationCore.Entities.Group", "Group")
+                        .WithMany("NotifyGroups")
+                        .HasForeignKey("GroupID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TalentVN.ApplicationCore.Entities.Notify", "Notify")
+                        .WithMany("NotifyGroups")
+                        .HasForeignKey("NotifyID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

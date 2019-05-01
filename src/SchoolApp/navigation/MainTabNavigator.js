@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import MenuScreen from '../screens/MenuScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
+import NotificationDetailScreen from '../screens/NotificationDetailScreen';
 import NewsScreen from '../screens/NewsScreen';
 import NewsDetailScreen from '../screens/NewsDetailScreen';
 
@@ -43,6 +44,7 @@ MenuStack.navigationOptions = {
 
 const NotificationsStack = createStackNavigator({
   Notifications: NotificationsScreen,
+  NotificationDetail: NotificationDetailScreen,
 });
 
 NotificationsStack.navigationOptions = {

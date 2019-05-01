@@ -260,16 +260,5 @@ namespace SchoolCMS.Controllers
 
             return Ok(await _groupService.RemoveStudents(groupID, studentIDs.Split(",").ToList()));
         }
-
-        [HttpGet]
-        public async Task<IActionResult> RemoveStudentss(int groupID)
-        {
-            if (groupID == null)
-            {
-                return NotFound();
-            }
-
-            return Ok();
-        }
     }
 }

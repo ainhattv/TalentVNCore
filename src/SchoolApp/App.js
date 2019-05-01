@@ -1,6 +1,6 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
+import { Platform, StatusBar, StyleSheet, View, Alert } from 'react-native';
+import { AppLoading, Asset, Font, Icon, Notifications } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import { registerForPushNotificationsAsync } from './services/registerForPushNotificationsAsync';
 
@@ -11,6 +11,17 @@ export default class App extends React.Component {
 
   componentDidMount() {
     registerForPushNotificationsAsync();
+
+    // Handle notifications that are received or selected while the app
+    // is open. If the app was closed and then opened by tapping the
+    // notification (rather than just tapping the app icon to open it),
+    // this function will fire on the next tick after the app starts
+    // with the notification data.
+    this._notificationSubscription = Notifications.addListener(this._handleNotification);
+  }
+
+  componentWillUnmount() {
+
   }
 
   render() {
@@ -32,6 +43,10 @@ export default class App extends React.Component {
       );
     }
   }
+
+  _handleNotification = (notification) => {
+    this.setState({ notification: notification });
+  };
 
   _loadResourcesAsync = async () => {
 

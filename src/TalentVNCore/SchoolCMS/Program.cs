@@ -19,6 +19,7 @@ namespace TalentVN.SchoolCMS
         public static void Main(string[] args)
         {
             var host = CreateWebHostBuilder(args)
+                        .UseUrls("http://127.0.0.1:5001")
                         .Build();
 
             using (var scope = host.Services.CreateScope())

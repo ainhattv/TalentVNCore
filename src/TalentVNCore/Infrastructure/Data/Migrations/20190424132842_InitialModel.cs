@@ -41,6 +41,23 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "News",
+                columns: table => new
+                {
+                    NewsID = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Header = table.Column<string>(nullable: true),
+                    Body = table.Column<string>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    NewsType = table.Column<int>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_News", x => x.NewsID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
                 {
@@ -102,10 +119,64 @@ namespace Infrastructure.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Notifys",
+                columns: table => new
+                {
+                    NotifyID = table.Column<string>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    Message = table.Column<string>(nullable: true),
+                    TeacherID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifys", x => x.NotifyID);
+                    table.ForeignKey(
+                        name: "FK_Notifys_Teachers_TeacherID",
+                        column: x => x.TeacherID,
+                        principalTable: "Teachers",
+                        principalColumn: "TeacherID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NotifyGroups",
+                columns: table => new
+                {
+                    GroupID = table.Column<string>(nullable: false),
+                    NotifyID = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotifyGroups", x => new { x.NotifyID, x.GroupID });
+                    table.ForeignKey(
+                        name: "FK_NotifyGroups_Groups_GroupID",
+                        column: x => x.GroupID,
+                        principalTable: "Groups",
+                        principalColumn: "GroupID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_NotifyGroups_Notifys_NotifyID",
+                        column: x => x.NotifyID,
+                        principalTable: "Notifys",
+                        principalColumn: "NotifyID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_GroupAccounts_GroupID",
                 table: "GroupAccounts",
                 column: "GroupID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NotifyGroups_GroupID",
+                table: "NotifyGroups",
+                column: "GroupID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifys_TeacherID",
+                table: "Notifys",
+                column: "TeacherID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_AccountID",
@@ -124,13 +195,22 @@ namespace Infrastructure.Data.Migrations
                 name: "GroupAccounts");
 
             migrationBuilder.DropTable(
+                name: "News");
+
+            migrationBuilder.DropTable(
+                name: "NotifyGroups");
+
+            migrationBuilder.DropTable(
                 name: "Students");
 
             migrationBuilder.DropTable(
-                name: "Teachers");
+                name: "Groups");
 
             migrationBuilder.DropTable(
-                name: "Groups");
+                name: "Notifys");
+
+            migrationBuilder.DropTable(
+                name: "Teachers");
 
             migrationBuilder.DropTable(
                 name: "Accounts");

@@ -7,9 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ExponentServerSdk" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
-    <PackageReference Include="Telerik.UI.for.AspNet.Core.Trial" Version="2018.3.911" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -30,6 +31,12 @@
 
   <ItemGroup>
     <Folder Include="Views\Accounts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Kendo.Mvc">
+      <HintPath>..\bin\Kendo.Mvc.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
