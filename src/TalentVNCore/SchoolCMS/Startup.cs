@@ -104,7 +104,13 @@ namespace TalentVN.SchoolCMS
 
             // Define Services Dependencies
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
+
             services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
+
+            services.Configure<DataProtectionTokenProviderOptions>(o =>
+                o.TokenLifespan = TimeSpan.FromHours(3));
+
             services.AddTransient<INotificationService, NotificationService>();
 
             // Define Repositories Dependencies
@@ -117,6 +123,39 @@ namespace TalentVN.SchoolCMS
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.LoginPath = "/Identity/Account/SignIn";
+                options.LogoutPath = "/Account/Signout";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
             });
 
             _services = services;
@@ -133,8 +172,8 @@ namespace TalentVN.SchoolCMS
                 {
                     services.AddIdentity<ApplicationUser, IdentityRole>()
                         // .AddDefaultUI(UIFramework.Bootstrap4) // Disable defaultUI for login page
-                        .AddEntityFrameworkStores<AppIdentityDbContext>();
-                                        //.AddDefaultTokenProviders();
+                        .AddEntityFrameworkStores<AppIdentityDbContext>()
+                                        .AddDefaultTokenProviders();
                 }
             }
         }

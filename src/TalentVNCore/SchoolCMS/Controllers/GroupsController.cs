@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Interfaces;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using TalentVN.SchoolCMS.ViewModels;
 
 namespace SchoolCMS.Controllers
 {
+    [Authorize]
     public class GroupsController : Controller
     {
         private readonly AppDbContext _context;

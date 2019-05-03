@@ -10,9 +10,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using TalentVN.Infrastructure.Data;
 using TalentVN.SchoolCMS.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SchoolCMS.Controllers
 {
+    [Authorize]
     public class StudentsController : Controller
     {
         private readonly AppDbContext _context;

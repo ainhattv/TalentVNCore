@@ -10,9 +10,11 @@ using TalentVN.Infrastructure.Data;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using TalentVN.SchoolCMS.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SchoolCMS.Controllers
 {
+    [Authorize]
     public class TeachersController : Controller
     {
         private readonly AppDbContext _context;

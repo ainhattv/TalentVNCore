@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -9,6 +10,7 @@ using TalentVN.SchoolCMS.Services;
 
 namespace SchoolCMS.Controllers
 {
+    [Authorize]
     public class NotifiesController : Controller
     {
         private readonly AppDbContext _context;

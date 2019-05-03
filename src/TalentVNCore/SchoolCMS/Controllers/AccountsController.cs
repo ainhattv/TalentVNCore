@@ -6,9 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using TalentVN.Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SchoolCMS.Controllers
 {
+    [Authorize]
     public class AccountsController : Controller
     {
         private readonly AppDbContext _context;

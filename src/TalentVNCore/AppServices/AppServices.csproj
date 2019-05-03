@@ -13,4 +13,8 @@
     <Folder Include="NotificationServices\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="SendGrid" Version="9.11.0" />
+  </ItemGroup>
+
 </Project>
