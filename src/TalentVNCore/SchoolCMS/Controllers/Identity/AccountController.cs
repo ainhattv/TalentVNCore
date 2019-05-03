@@ -112,7 +112,7 @@ namespace SchoolCMS.Controllers.Identity
                                                "ConfirmEmail", "Account", values: new { userId = user.Id, code = code }, protocol: Request.Scheme);
                     await _emailSender.SendEmailAsync(user.Email, "No subject", callbackUrl);
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    // await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -126,11 +126,21 @@ namespace SchoolCMS.Controllers.Identity
         // GET: Identity/Account/SignIn 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ConfirmEmail(string userId, string code)
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
+            if (userId == null || code == null)
+            {
+                return RedirectToPage("/Index");
+            }
 
-            // Redirect to Home page
-            return RedirectToAction("Index", "Home");
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
         [HttpGet]

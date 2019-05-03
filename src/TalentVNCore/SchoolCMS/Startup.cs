@@ -106,10 +106,8 @@ namespace TalentVN.SchoolCMS
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
 
             services.AddTransient<IEmailSender, EmailSender>();
-            services.Configure<AuthMessageSenderOptions>(Configuration);
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
 
-            services.Configure<DataProtectionTokenProviderOptions>(o =>
-                o.TokenLifespan = TimeSpan.FromHours(3));
 
             services.AddTransient<INotificationService, NotificationService>();
 
@@ -144,6 +142,7 @@ namespace TalentVN.SchoolCMS
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = false;
+                options.SignIn.RequireConfirmedEmail = true;
             });
 
             services.ConfigureApplicationCookie(options =>
