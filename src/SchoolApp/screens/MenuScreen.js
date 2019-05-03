@@ -5,10 +5,10 @@ import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Ic
 export default class MenuScreen extends Component {
 
   static navigationOptions = {
-    headerTitle: "Bản tin",
+    headerTitle: "Công cụ",
     headerLeft: (
       <Left style={{ padding: 10 }}>
-        <Thumbnail small source={{ uri: 'https://cdn1.iconfinder.com/data/icons/office-1/128/4-512.png' }} />
+        <Thumbnail small source={{ uri: 'https://cdn1.vectorstock.com/i/1000x1000/27/40/setting-icon-vector-20142740.jpg' }} />
       </Left>
     ),
 
@@ -19,29 +19,29 @@ export default class MenuScreen extends Component {
       key: 'a', imageUri: 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/256/Home-icon.png'
     },
     {
-      key: 'a1', imageUri: 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/256/Home-icon.png'
+      key: 'a1', imageUri: 'https://cdn3.iconfinder.com/data/icons/seo-glyph-2/24/gear-setting-512.png'
     },
     {
-      key: 'a2', imageUri: 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/256/Home-icon.png'
+      key: 'a2', imageUri: 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/calendar-512.png'
     },
     {
-      key: 'a3', imageUri: 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/256/Home-icon.png'
+      key: 'a3', imageUri: 'https://cdn3.iconfinder.com/data/icons/business-lifestyle/100/004-01-512.png'
     },
-    {
-      key: 'a4', imageUri: 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/256/Home-icon.png'
-    },
-    {
-      key: 'a5', imageUri: 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/256/Home-icon.png'
-    },
-    {
-      key: 'a6', imageUri: 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/256/Home-icon.png'
-    },
-    {
-      key: 'a7', imageUri: 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/256/Home-icon.png'
-    },
-    {
-      key: 'a8', imageUri: 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/256/Home-icon.png'
-    }
+    // {
+    //   key: 'a4', imageUri: 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/256/Home-icon.png'
+    // },
+    // {
+    //   key: 'a5', imageUri: 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/256/Home-icon.png'
+    // },
+    // {
+    //   key: 'a6', imageUri: 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/256/Home-icon.png'
+    // },
+    // {
+    //   key: 'a7', imageUri: 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/256/Home-icon.png'
+    // },
+    // {
+    //   key: 'a8', imageUri: 'http://icons.iconarchive.com/icons/custom-icon-design/flatastic-8/256/Home-icon.png'
+    // }
   ];
 
   _onPress = () => {
@@ -56,8 +56,8 @@ export default class MenuScreen extends Component {
       padding: 10,
       minWidth: 80,
       maxWidth: 110,
-      height: 80,
-      maxHeight: 80,
+      minheight: 80,
+      maxHeight: 110,
       borderRadius: 4,
       borderWidth: 0.5,
       borderColor: '#d6d7da',

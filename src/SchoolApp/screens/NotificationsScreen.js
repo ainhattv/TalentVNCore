@@ -14,7 +14,7 @@ export default class NotificationsScreen extends Component {
     headerTitle: "Thông báo",
     headerLeft: (
       <Left style={{ padding: 10 }}>
-        <Thumbnail small source={{ uri: 'https://cdn1.iconfinder.com/data/icons/office-1/128/4-512.png' }} />
+        <Thumbnail small source={{ uri: 'https://i1.wp.com/www.powerpac.org/wp-content/uploads/2017/07/cropped-megaphone.png' }} />
       </Left>
     ),
   }

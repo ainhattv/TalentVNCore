@@ -117,11 +117,20 @@ export default class NewsScreen extends Component {
                                                 </CardItem>
                                             </TouchableOpacity>
                                             <CardItem>
-                                                <Right>
-                                                    <Button transparent textStyle={{ color: '#87838B' }}>
-                                                        <Icon name="logo-github" />
-                                                        <Text>1,926 stars</Text>
+                                                <Left>
+                                                    <Button transparent >
+                                                        <Icon active name="thumbs-up" />
+                                                        <Text>12 View</Text>
                                                     </Button>
+                                                </Left>
+                                                {/* <Body>
+                                                    <Button transparent >
+                                                        <Icon active name="chatbubbles" />
+                                                        <Text>4 Comments</Text>
+                                                    </Button>
+                                                </Body> */}
+                                                <Right>
+                                                    <Text note>11h ago</Text>
                                                 </Right>
                                             </CardItem>
                                         </Card>
@@ -134,7 +143,7 @@ export default class NewsScreen extends Component {
                 </Container>
             );
         } else {
-            return null;
+            return <Expo.AppLoading />;
         }
 
     }

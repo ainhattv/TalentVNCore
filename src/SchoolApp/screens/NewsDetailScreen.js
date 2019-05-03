@@ -38,7 +38,7 @@ export default class NewsDetailScreen extends React.Component {
         this.setState({ refreshing: true });
 
         this.getNewsDetail(this.state.NewsID);
-        
+
         this.setState({ refreshing: false });
     }
 
@@ -96,7 +96,7 @@ export default class NewsDetailScreen extends React.Component {
                                 </CardItem>
                                 <CardItem>
 
-                                    <Image source={{ uri: 'https://now.edu.vn/wp-content/uploads/2016/02/mixed-logo.jpg' }} style={{ height: 300, width: null, flex: 1 }} />
+                                    <Image source={{ uri: NewsData.ImageUrl }} style={{ height: 300, width: null, flex: 1 }} />
 
                                 </CardItem>
 
