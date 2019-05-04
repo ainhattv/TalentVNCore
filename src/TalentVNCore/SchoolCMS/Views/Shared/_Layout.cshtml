@@ -40,7 +40,11 @@
         <div class="k-header">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-8"><h1><a asp-controller="Home" asp-action="Index">TalentVN - SchoolCMS</a></h1></div>
+                    <div class="col-md-8">
+                        <h1>
+                            <a asp-controller="Home" asp-action="Index"><img  src="~/images/mixed-logo.jpg" WIDTH=60 HEIGHT=40 />TalentVN - SchoolCMS</a>
+                        </h1>
+                    </div>
                     <div class="col-md-4 d-flex p-2" style="text-align: end; padding-top:initial">
                         <div class="row">
                             @if (Context.User.Identity.IsAuthenticated)
