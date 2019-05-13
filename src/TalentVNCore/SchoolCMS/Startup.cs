@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TalentVN.ApplicationCore.Interfaces;
 using AppServices.EmailServices;
 using TalentVN.Infrastructure.Data;
-using TalentVN.Infrastructure.Identity;
+using TalentVN.Security.Data;
 using TalentVN.Infrastructure.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,6 +23,9 @@ using ApplicationCore.Interfaces;
 using AppServices.DataServices;
 using Swashbuckle.AspNetCore.Swagger;
 using TalentVN.SchoolCMS.Services;
+using TalentVN.Security.Entities;
+using TalentVN.Security.Interfaces;
+using TalentVN.Security.Services;
 
 namespace TalentVN.SchoolCMS
 {
@@ -56,7 +59,7 @@ namespace TalentVN.SchoolCMS
                 c.UseInMemoryDatabase("CoreDBConnection"));
 
             // Add Identity DbContext
-            services.AddDbContext<AppIdentityDbContext>(options =>
+            services.AddDbContext<SecurityDbContext>(options =>
                 options.UseInMemoryDatabase("CoreDBConnection"));
 
             ConfigureServices(services);
@@ -71,7 +74,7 @@ namespace TalentVN.SchoolCMS
                 c.UseSqlServer(Configuration.GetConnectionString("CoreDBConnection")));
 
             // Add Identity DbContext
-            services.AddDbContext<AppIdentityDbContext>(options =>
+            services.AddDbContext<SecurityDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("CoreDBConnection")));
 
             ConfigureServices(services);
@@ -114,6 +117,7 @@ namespace TalentVN.SchoolCMS
             // Define Repositories Dependencies
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
             services.AddScoped(typeof(IGroupService), typeof(GroupService));
+            services.AddTransient(typeof(IAsyncIdentityService), typeof(AsyncIdentityService));
 
             // Add Kendo UI services to the services container
             services.AddKendo();
@@ -169,9 +173,9 @@ namespace TalentVN.SchoolCMS
                     .GetService<UserManager<ApplicationUser>>();
                 if (existingUserManager == null)
                 {
-                    services.AddIdentity<ApplicationUser, IdentityRole>()
+                    services.AddIdentity<ApplicationUser, ApplicationRole>()
                         // .AddDefaultUI(UIFramework.Bootstrap4) // Disable defaultUI for login page
-                        .AddEntityFrameworkStores<AppIdentityDbContext>()
+                        .AddEntityFrameworkStores<SecurityDbContext>()
                                         .AddDefaultTokenProviders();
                 }
             }

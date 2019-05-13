@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TalentVN.Infrastructure.Data;
-using TalentVN.Infrastructure.Identity;
+using TalentVN.Security.Entities;
 
 namespace TalentVN.SchoolCMS
 {
@@ -28,8 +28,8 @@ namespace TalentVN.SchoolCMS
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
                 try
                 {
-                    var catalogContext = services.GetRequiredService<AppDbContext>();
-                    AppDbContextSeed.SeedAsync(catalogContext, loggerFactory)
+                    var dbContext = services.GetRequiredService<AppDbContext>();
+                    AppDbContextSeed.SeedAsync(dbContext, loggerFactory)
             .Wait();
 
                     //var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();

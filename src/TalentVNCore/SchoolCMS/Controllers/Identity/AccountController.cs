@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TalentVN.ApplicationCore.Interfaces;
-using TalentVN.Infrastructure.Identity;
+using TalentVN.Security.Entities;
 using TalentVN.SchoolCMS.ViewModels;
+using TalentVN.Security.Interfaces;
 
 namespace SchoolCMS.Controllers.Identity
 {
@@ -20,16 +21,19 @@ namespace SchoolCMS.Controllers.Identity
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly IAppLogger<AccountController> _logger;
+        private readonly IAsyncIdentityService _asyncIdentityService;
 
         public AccountController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            IAppLogger<AccountController> logger)
+            IAppLogger<AccountController> logger,
+            IAsyncIdentityService asyncIdentityService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _asyncIdentityService = asyncIdentityService;
         }
 
         // GET: Identity/Account/SignIn 
@@ -54,9 +58,9 @@ namespace SchoolCMS.Controllers.Identity
             }
             ViewData["ReturnUrl"] = returnUrl;
 
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+            var result = await _asyncIdentityService.SignIn(model.Email, model.Password, model.RememberMe);
 
-            if (result.Succeeded)
+            if (result)
             {
                 if (string.IsNullOrEmpty(returnUrl))
                 {
@@ -91,22 +95,21 @@ namespace SchoolCMS.Controllers.Identity
         {
             if (ModelState.IsValid)
             {
-                var checkValid = await _userManager.FindByEmailAsync(model.Email);
+                var checkValid = await _asyncIdentityService.CheckEmailValid(model.Email);
 
-                if (checkValid != null)
+                if (!checkValid)
                 {
                     // Add Error message
                     ModelState.AddModelError("error", "Your Email is dupplicated!");
                     return View(model);
                 }
 
-                // Create UserModel
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var result = await _asyncIdentityService.Register(user.Email, model.Password);
+                if (result)
                 {
                     // Generate code
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var code = await _asyncIdentityService.GenerateEmailConfirmationToken(model.Email);
 
                     var callbackUrl = Url.Action(
                                                "ConfirmEmail", "Account", values: new { userId = user.Id, code = code }, protocol: Request.Scheme);
@@ -133,21 +136,15 @@ namespace SchoolCMS.Controllers.Identity
                 return RedirectToPage("/Index");
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
-            }
-
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            var result = await _asyncIdentityService.ConfirmEmail(userId, code);
+            return View(result ? "ConfirmEmail" : "Error");
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult> SignOut()
+        public ActionResult SignOut()
         {
-            await _signInManager.SignOutAsync();
+            _asyncIdentityService.SignOut();
 
             return Redirect("/Identity/Account/SignIn");
         }
